@@ -68,7 +68,7 @@ Example queries:
 Find financial discussions from 2021
 Show emails from 2020
 Show reports from 2022
-## 🧠 System Architecture##
+## 🧠 System Architecture ##
 
 ```
 Documents → Cleaning → Chunking → Embeddings → FAISS
@@ -79,7 +79,8 @@ User Query → Retrieval → Metadata Filtering → LLM → Answer
 
 ## 🔍 Design Decisions ##
 
-###1. Chunking Strategy###
+### 1. Chunking Strategy ###
+
 Used **RecursiveCharacterTextSplitter**
 Chunk size: 500, overlap: 100
 
@@ -90,46 +91,53 @@ Handles noisy documents better
 Avoids breaking important information
 ### 2. Handling Noisy / Messy Documents ###
 
-Dataset contained:
+**Dataset contained**:
 
 Random symbols ($$$, ###)
+
 Irregular spacing
+
 Mixed content (HR + financial)
 
-Solution:
+**Solution**:
 
-Regex-based cleaning
-Removed noise tokens
-Normalized whitespace
-Extracted relevant email body content
+- Regex-based cleaning
+- Removed noise tokens
+- Normalized whitespace
+-Extracted relevant email body content
+
 ### 3. Improving Retrieval Quality ###
 
 Several improvements were applied:
 
-Increased retrieval size (k=20)
-Metadata-aware filtering:
-Date (year)
-Document type (email, report, contract)
-Document-level deduplication (using document_id)
-Limiting final results to reduce noise
-Query expansion (e.g., financial → revenue, finance)
+- Increased retrieval size (k=20)
+- Metadata-aware filtering:
+- Date (year)
+- Document type (email, report, contract)
+- Document-level deduplication (using document_id)
+- Limiting final results to reduce noise
+- Query expansion (e.g., financial → revenue, finance)
+
 ### 4. What Breaks at Scale (1M Documents)? ###
 
 At large scale:
 
 ❌ FAISS in-memory becomes inefficient
+
 ❌ High latency in retrieval
+
 ❌ Metadata filtering becomes costly
+
 ❌ Embedding computation overhead
 
-Solutions:
+**Solutions**:
 
 Use vector DBs like Pinecone / Weaviate
 Use hybrid search (BM25 + embeddings)
 Pre-index metadata filters
 Distributed retrieval pipelines
 
-###5. Hallucination Risks & Fixes ###
+### 5. Hallucination Risks & Fixes ###
 
 Where hallucination occurs:
 When retrieved context is weak or empty
@@ -149,13 +157,13 @@ The dataset contains inconsistencies between:
 
 Metadata is treated as the source of truth.
 
-Reason:
+**Reason**:
 
 - Structured and reliable
 - Content may be noisy or inconsistent
 
 
-## 🛠️ Tech Stack##
+## 🛠️ Tech Stack ##
 
 - Python
 - LangChain
@@ -164,7 +172,7 @@ Reason:
 - Gemini (LLM)
 - Pandas
 
-###🔥 Example Query### 
+### 🔥 Example Query ### 
 
 Input:
 ```
@@ -203,9 +211,8 @@ This project demonstrates a real-world RAG pipeline with:
 - Handling of messy data
 - Practical system design considerations
 
-## Author
+## 👤 Author
 ```
-
 S V Vishnu Vamsi
 vishvasistla04@gmail.com
 ```
