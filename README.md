@@ -38,7 +38,6 @@ venio-rag/
 │ └── utils.py # Text cleaning utilities
 │
 ├── main.py # CLI entry point
-├── api.py # Optional FastAPI endpoint
 ├── requirements.txt
 └── README.md
 ```
