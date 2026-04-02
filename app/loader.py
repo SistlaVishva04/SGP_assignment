@@ -6,7 +6,6 @@ from langchain_community.document_loaders import PyPDFLoader
 def load_documents(data_path="data"):
     df = pd.read_csv(os.path.join(data_path, "metadata.csv"))
 
-    # Convert date → important for filtering
     df["date"] = pd.to_datetime(df["date"], dayfirst=True)
 
     documents = []
@@ -14,11 +13,11 @@ def load_documents(data_path="data"):
     for _, row in df.iterrows():
         file_path = os.path.join(data_path, "documents", row["file_name"])
 
-        # Skip irrelevant docs
+        
         if row["document_type"] == "irrelevant":
             continue
 
-        # Load file
+        
         if file_path.endswith(".txt"):
             with open(file_path, "r", encoding="utf-8") as f:
                 text = f.read()
@@ -29,7 +28,7 @@ def load_documents(data_path="data"):
             pages = loader.load()
             text = " ".join([p.page_content for p in pages])
 
-        # Clean text
+        
         text = clean_text(text)
 
         documents.append({

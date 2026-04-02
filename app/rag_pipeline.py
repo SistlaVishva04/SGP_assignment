@@ -3,16 +3,15 @@ import re
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
+
 load_dotenv()
 
-#  Get API key safely
 API_KEY = os.getenv("GEMINI_API_KEY")
 
 if not API_KEY:
     raise ValueError("❌ GEMINI_API_KEY not found in .env file")
 
-# Initialize client
+
 client = genai.Client(api_key=API_KEY)
 
 
@@ -20,16 +19,15 @@ def query_rag(vectorstore, query):
 
     query_lower = query.lower()
 
-    #  Extract year from query
     year_match = re.search(r"\b(20\d{2})\b", query)
     year = int(year_match.group()) if year_match else None
 
-    #  STEP 1: Semantic retrieval
+  
     retrieved_docs = vectorstore.similarity_search(query, k=10)
 
     filtered_docs = []
 
-    #  STEP 2: Metadata filtering
+   
     for d in retrieved_docs:
         meta = d.metadata
 
@@ -52,7 +50,7 @@ def query_rag(vectorstore, query):
 
         filtered_docs.append(d)
 
-    #  STEP 3: Deduplicate
+   
     unique_docs = {}
     for d in filtered_docs:
         doc_id = d.metadata.get("document_id")
@@ -63,7 +61,7 @@ def query_rag(vectorstore, query):
 
     print(f"After filtering (final docs): {len(filtered_docs)}")
 
-    #  STEP 4: Build structured context
+    
     context_parts = []
 
     for d in filtered_docs:
@@ -86,7 +84,7 @@ Content:
 
     context = "\n\n".join(context_parts)
 
-    #  STEP 5: Prompt
+   
     prompt = f"""
 You are a document intelligence assistant.
 
@@ -102,7 +100,7 @@ Question:
 Answer:
 """
 
-    #  STEP 6: LLM call with proper error handling
+    
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash",
@@ -117,7 +115,7 @@ Answer:
     except Exception as e:
         print(f"⚠️ Gemini API Error: {str(e)}")
 
-        #  STEP 7: Fallback mode
+     
         summary_lines = []
 
         for d in filtered_docs:

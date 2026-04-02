@@ -14,8 +14,8 @@ def main():
     vs = create_vectorstore(chunks)
 
     while True:
-        q = input("\nEnter query: ")
-        if q == "exit":
+        q = input("\nEnter query:(for exit type 'exit') ")
+        if q == "exit" or q == "Exit" or q == "EXIT":
             break
 
         answer = query_rag(vs, q)
