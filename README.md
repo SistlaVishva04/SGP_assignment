@@ -146,6 +146,9 @@ Mitigation:
 Strict prompting: "Use only provided context"
 Fallback response if LLM fails
 Metadata filtering to improve context relevance
+
+---
+
 ## ⚠️ Important Observation ##
 
 The dataset contains inconsistencies between:
@@ -162,6 +165,7 @@ Metadata is treated as the source of truth.
 - Structured and reliable
 - Content may be noisy or inconsistent
 
+---
 
 ## 🛠️ Tech Stack ##
 
@@ -171,6 +175,8 @@ Metadata is treated as the source of truth.
 - Sentence Transformers (Embeddings)
 - Gemini (LLM)
 - Pandas
+
+---
 
 ### 🔥 Example Query ### 
 
@@ -186,6 +192,8 @@ Retrieves relevant documents
 Filters by metadata (year = 2021)
 Generates summary (or fallback if API fails)
 ```
+
+---
 
 ## ⚠️ Known Limitations
 - Gemini API quota may limit responses
@@ -210,6 +218,8 @@ This project demonstrates a real-world RAG pipeline with:
 - Metadata-aware retrieval
 - Handling of messy data
 - Practical system design considerations
+
+---
 
 ## 👤 Author
 ```
